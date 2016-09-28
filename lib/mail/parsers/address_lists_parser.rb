@@ -10,11 +10,12 @@ module Mail::Parsers
         return address_list
       end
 
+      s = Mail::Encodings.encode_non_usascii(s, 'utf-8')
+
       actions, error = Ragel.parse(:address_lists, s)
       if error
         raise Mail::Field::ParseError.new(Mail::AddressList, s, error)
       end
-
 
       phrase_s = phrase_e = qstr_s = qstr = comment_s = nil
       group_name_s = domain_s = group_name = nil
